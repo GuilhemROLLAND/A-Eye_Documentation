@@ -3,33 +3,37 @@
 skinparam SequenceGroupBodyBackgroundColor #FFFFFF90
 skinparam SequenceMessageAlign reverseDirection
 
-box "ZYBO" #LightBlue
-    participant process_IA as ia order 7
-    participant preprocess as pr order 8
-    participant script_demo as script order 6
-    participant interpreteur as int order 5
-    participant tcp_server as server order 4
-end box
-box "station sol" #MistyRose
-    participant tcp_client as client order 3
-    participant ihm as ihm order 2
-end box
 actor user order 1
+
+box "ZYBO" #LightBlue
+    participant tcp_server_rcv as server_rcv order 4
+    participant tcp_server_send as server_send order 5
+    participant interpreteur as int order 6
+    participant script_demo as script order 7
+    participant process_IA as ia order 8
+    participant preprocess as pr order 9
+end box
+
+box "station sol" #MistyRose
+    participant ihm as ihm order 2
+    participant tcp_client as client order 3
+end box
+
+activate server_rcv
 user -> ihm : Mode auto
 ihm -> client : TC mode auto
-client -> server : TCP frame
-server -> int : struct update
-int -> server : ACK 
-server -> client : ACK
+client -> server_rcv : TCP frame
+server_rcv -> int : struct update
+int -> server_send : ACK 
+activate server_send
+server_send -> client : ACK
+deactivate server_send
 client -> ihm : log
     group while auto
         int -> script : bash command ./script
         activate script 
         note over script #LightSalmon:  update temp.bmp \n with  random img \n from dataset
-        ' script -> script : update temp.bmp \n with  random img \n from dataset
-        activate script 
         script -> ia : SIGUSR1
-        deactivate script
         deactivate script
         activate ia 
         ia -> pr : preprocess()
@@ -40,9 +44,11 @@ client -> ihm : log
         deactivate pr 
         ia -> int : IAtoINT_pipe(prediction)
         deactivate ia
-        int -> server : process img_f
+        int -> server_send : process img_f
         group if (img_f == true)
-            server -> client : send image
+            activate server_send
+            server_send -> client : send image
+            deactivate server_send
         end
     end
     client -> ihm : visionneuse
