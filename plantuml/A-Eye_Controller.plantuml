@@ -8,6 +8,7 @@ participant run_thr
 participant pipe_thr
 participant clientTCP_thr
 participant CommunicationModule
+
 user -> main : launch
 activate main
 main -> run_thr : create
@@ -35,7 +36,7 @@ stockage -> controller : img
 deactivate stockage 
 controller -> user : display, log, ...
 
-deactivate controller 
-deactivate clientTCP_thr 
-deactivate pipe_thr 
+' deactivate controller 
+' deactivate clientTCP_thr 
+' deactivate pipe_thr 
 @enduml
