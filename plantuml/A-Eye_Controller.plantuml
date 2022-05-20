@@ -1,0 +1,40 @@
+@startuml A-Eye_Controller
+actor user
+participant main 
+participant controller
+participant stockage
+participant config.json
+participant run_thr
+participant pipe_thr
+participant clientTCP_thr
+participant CommunicationModule
+user -> main : launch
+activate main
+main -> run_thr : create
+main -> controller : 
+deactivate main 
+activate controller
+activate run_thr 
+run_thr -> pipe_thr : create
+activate pipe_thr
+run_thr -> clientTCP_thr : create
+activate clientTCP_thr
+
+user -> controller : click
+controller -> config.json : update
+config.json -> clientTCP_thr : pooling via encodeTC
+clientTCP_thr -> CommunicationModule : wake
+activate CommunicationModule
+CommunicationModule -> pipe_thr : ack
+deactivate CommunicationModule
+pipe_thr -> controller : string msg ack
+pipe_thr -> stockage : wake
+activate stockage
+stockage -> controller : img
+deactivate stockage 
+controller -> user : display, log, ...
+
+deactivate controller 
+deactivate clientTCP_thr 
+deactivate pipe_thr 
+@enduml
