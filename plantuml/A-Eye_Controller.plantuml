@@ -1,4 +1,4 @@
-@startuml A-Eye_Controller
+@startuml A-Eye_Controller sequence diagram
 actor user
 participant main 
 participant controller
