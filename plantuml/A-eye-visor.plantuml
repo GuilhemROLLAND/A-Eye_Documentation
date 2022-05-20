@@ -28,7 +28,7 @@ client -> ihm : log
         note over script #LightSalmon:  update temp.bmp \n with  random img \n from dataset
         ' script -> script : update temp.bmp \n with  random img \n from dataset
         activate script 
-        script -> ia : SIGUSER1
+        script -> ia : SIGUSR1
         deactivate script
         deactivate script
         activate ia 
