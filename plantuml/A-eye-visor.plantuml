@@ -53,3 +53,35 @@ client -> ihm : log
     end
     client -> ihm : visionneuse
 @enduml
+
+
+@startuml Sequence IA
+participant preprocess
+participant IA_shipsnet as shipsnet
+participant demo_sh
+participant BDD 
+participant root_folder as root
+participant get_rand_img_py as rand
+
+activate shipsnet 
+note over shipsnet : init
+shipsnet -> shipsnet : wait for SIGUSR1
+activate demo_sh
+demo_sh -> rand : launch
+activate rand
+rand -> BDD : get rand img
+rand -> root : put img.bmp
+rand -> demo_sh : finish
+deactivate rand
+demo_sh -> shipsnet : send SIGUSR1
+deactivate demo_sh
+shipsnet -> root_folder : get img.bmp
+shipsnet -> preprocess : preprocess bmp to csv
+activate preprocess
+note over preprocess : resize, convert
+preprocess -> root_folder : img.csv
+preprocess -> shipsnet : finish
+' TO DO
+deactivate preprocess
+
+@enduml 
