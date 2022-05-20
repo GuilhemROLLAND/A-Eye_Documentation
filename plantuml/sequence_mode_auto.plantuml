@@ -1,0 +1,48 @@
+@startuml Process IA
+
+skinparam SequenceGroupBodyBackgroundColor #FFFFFF90
+
+box "ZYBO" #LightBlue
+    participant process_IA as ia order 7
+    participant preprocess as pr order 8
+    participant script_demo as script order 6
+    participant interpreteur as int order 5
+    participant tcp_server as server order 4
+end box
+box "station sol" #MistyRose
+    participant tcp_client as client order 3
+    participant ihm as ihm order 2
+end box
+actor user order 1
+user -> ihm : Mode auto
+ihm -> client : TC mode auto
+client -> server : TCP frame
+server -> int : struct update
+int -> server : ACK 
+server -> client : ACK
+client -> ihm : log
+    group while auto
+        int -> script : bash command ./script
+        activate script 
+        note over script #LightSalmon:  update temp.bmp \n with  random img \n from dataset
+        ' script -> script : update temp.bmp \n with  random img \n from dataset
+        activate script 
+        script -> ia : SIGUSER1 
+        deactivate script
+        deactivate script
+        activate ia 
+        ia -> pr : preprocess()
+        activate pr 
+        note over pr #LightSalmon : update temp.csv 
+        ' pr -> pr : update temp.csv
+        pr -> ia
+        deactivate pr 
+        ia -> int : IAtoINT_pipe(prediction)
+        deactivate ia
+        int -> server : process img_f
+        group if (img_f == true)
+            server -> client : send image
+        end
+    end
+    client -> ihm : visionneuse
+@enduml
