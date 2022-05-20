@@ -9,7 +9,7 @@ box "ZYBO" #LightBlue
     participant tcp_server_rcv as server_rcv order 4
     participant tcp_server_send as server_send order 5
     participant interpreteur as int order 6
-    participant script_demo as script order 7
+    participant demo.sh as script order 7
     participant process_IA as ia order 8
     participant preprocess as pr order 9
 end box
@@ -30,7 +30,7 @@ server_send -> client : ACK
 deactivate server_send
 client -> ihm : log
     group while auto
-        int -> script : bash command ./script
+        int -> script : bash demo.sh
         activate script 
         note over script #LightSalmon:  update temp.bmp \n with  random img \n from dataset
         script -> ia : SIGUSR1
