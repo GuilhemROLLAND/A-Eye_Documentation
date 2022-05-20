@@ -19,15 +19,16 @@ run_thr -> pipe_thr : create
 activate pipe_thr
 run_thr -> clientTCP_thr : create
 activate clientTCP_thr
-
+note over clientTCP_thr : run client.py
 user -> controller : click
 controller -> config.json : update
 config.json -> clientTCP_thr : pooling via encodeTC
-clientTCP_thr -> CommunicationModule : wake
+clientTCP_thr -> CommunicationModule : TC
 activate CommunicationModule
-CommunicationModule -> pipe_thr : ack
+CommunicationModule -> clientTCP_thr : TM
 deactivate CommunicationModule
-pipe_thr -> controller : string msg ack
+clientTCP_thr -> pipe_thr : decoded msg
+pipe_thr -> controller : string msg 
 pipe_thr -> stockage : wake
 activate stockage
 stockage -> controller : img
