@@ -55,33 +55,51 @@ client -> ihm : log
 @enduml
 
 
-@startuml Sequence IA
-participant preprocess
+
+
+
+@startuml Sequence_IA
 participant IA_shipsnet as shipsnet
 participant demo_sh
-participant BDD 
-participant root_folder as root
 participant get_rand_img_py as rand
+participant BDD 
+participant root_folder
+participant preprocess
 
 activate shipsnet 
-note over shipsnet : init
+note over shipsnet : init_arch
+note over shipsnet : load_weights
 shipsnet -> shipsnet : wait for SIGUSR1
 activate demo_sh
-demo_sh -> rand : launch
-activate rand
-rand -> BDD : get rand img
-rand -> root : put img.bmp
-rand -> demo_sh : finish
-deactivate rand
-demo_sh -> shipsnet : send SIGUSR1
-deactivate demo_sh
-shipsnet -> root_folder : get img.bmp
-shipsnet -> preprocess : preprocess bmp to csv
-activate preprocess
-note over preprocess : resize, convert
-preprocess -> root_folder : img.csv
-preprocess -> shipsnet : finish
-' TO DO
-deactivate preprocess
+group while true
+    group randomise img
+        demo_sh -> rand : launch
+        activate rand
+        rand -> BDD : get rand img
+        rand -> root_folder : put img.bmp
+        rand -> demo_sh : finish
+        deactivate rand
+    end
 
+    demo_sh -> shipsnet : send SIGUSR1
+    deactivate demo_sh
+
+    group preprocess
+        shipsnet -> preprocess : preprocess bmp to csv
+        activate preprocess
+        preprocess -> root_folder : get img.bmp
+        note over preprocess : resize, convert
+        preprocess -> root_folder : put img.csv
+        preprocess -> shipsnet : finish
+        deactivate preprocess
+    end
+
+    group process
+        shipsnet -> root_folder : load img.csv
+        note over shipsnet : rescaling
+        note over shipsnet : process image
+        note over shipsnet : pipe writing predictions
+    end
+end
+deactivate shipsnet
 @enduml 
