@@ -1,4 +1,4 @@
-@startuml Sequence mode auto
+@startuml Sequence_mode_auto
 
 skinparam SequenceGroupBodyBackgroundColor #FFFFFF90
 skinparam SequenceMessageAlign reverseDirection
