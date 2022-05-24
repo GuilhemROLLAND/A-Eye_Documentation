@@ -1,0 +1,56 @@
+@startsalt arbo_zybo
+
+{
+    {T
+        +root
+            ++A-Eye_CommunicationModule
+                +++decodageTC.c
+                +++decodageTC.h
+                +++encodageTM.c
+                +++encodageTM.h
+                +++interpreteur.c
+                +++interpreteur.h
+                +++header.h
+                +++tcp_server.c
+                +++tcp_server.h
+            ++A-Eye_Visor
+                +++preprocess.c
+                +++preprocess.h
+                +++json.c
+                +++json.h
+                +++shipsnet.c
+            ++demo.sh
+            ++init.sh
+            ++get_rand_img.py
+            ++IAtoINT
+            ++temp.csv
+            ++airbus_train_bmp
+            ++temp.bmp
+    }
+}
+
+@endsalt
+
+@startsalt arbo_PC
+{
+    {T
+        +A-Eye_Controller
+            ++A-Eye_Controller.sln
+            ++A-Eye_CommunicationPC
+                +++encodageTC.py
+                +++decodagetTM.py
+                +++config.json
+                +++last_config.json
+                +++pipeClient.py
+            ++Images
+                +++Année
+                    ++++Mois
+                        +++++Jour
+                            ++++++Auto
+                                +++++++A_*annee*_*mois*_*jour*_*heure_*idx*
+                            ++++++Manual
+                                +++++++M_*annee*_*mois*_*jour*_*heure*_*idx*
+    }
+}
+
+@endsalt
