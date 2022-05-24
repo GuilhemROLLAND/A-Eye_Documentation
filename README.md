@@ -5,9 +5,9 @@ Le reste de la documentation (Design, Architecture, ...) est sur le Riesling.
 
 ## Arborescence
 ### Code embarqué
-![A-Eye_arborescence](/out/plantuml/A-Eye_arborescence/arbo_zybo.png) 
+![A-Eye_arboresence](/out/plantuml/A-Eye_arboresence/arbo_zybo.png) 
 ### Appli PC
-![A-Eye_arborescence](/out/plantuml/A-Eye_arborescence/arbo_PC.png) 
+![A-Eye_arboresence](/out/plantuml/A-Eye_arboresence/arbo_PC.png) 
 
 ## A-Eye_Visor
 ### Mode Auto
