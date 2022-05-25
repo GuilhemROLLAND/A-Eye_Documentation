@@ -2,7 +2,8 @@
 actor user
 participant main 
 participant controller
-participant stockage
+participant visionneuse_thr
+participant stockage_thr as stockage
 participant config.json
 participant run_thr
 participant pipe_thr
@@ -21,7 +22,7 @@ activate pipe_thr
 run_thr -> clientTCP_thr : create
 activate clientTCP_thr
 note over clientTCP_thr : run client.py
-user -> controller : click
+user -> controller : set config
 controller -> config.json : update
 config.json -> clientTCP_thr : pooling via encodeTC
 clientTCP_thr -> CommunicationModule : TC
@@ -32,7 +33,10 @@ clientTCP_thr -> pipe_thr : decoded msg
 pipe_thr -> controller : string msg 
 pipe_thr -> stockage : wake
 activate stockage
-stockage -> controller : img
+pipe_thr -> visionneuse_thr : img
+activate visionneuse_thr
+visionneuse_thr -> controller : display
+deactivate visionneuse_thr
 deactivate stockage 
 controller -> user : display, log, ...
 
