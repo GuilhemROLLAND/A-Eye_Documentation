@@ -2,10 +2,10 @@
 Documentation du projet A-Eye  
 Ce projet permet notamment de collaborer sur les diagrammes UML  
 
-## Arborescence
-### Code embarqué
+## Arborescences
+### A-Eye_root : Code embarqué
 ![A-Eye_arboresence](/out/plantuml/A-Eye_arboresence/arbo_zybo.png) 
-### Appli PC
+### A-Eye_Controller : Appli PC windows
 ![A-Eye_arboresence](/out/plantuml/A-Eye_arboresence/arbo_PC.png) 
 
 ## A-Eye_Visor
@@ -14,7 +14,7 @@ Ce projet permet notamment de collaborer sur les diagrammes UML
 ### Focus on AI (demo mode)
 ![A-Eye_Visor](/out/plantuml/A-Eye_Visor/Sequence_IA.png)
 
-## A-Eye_CommunicationModule
+## A-Eye_Communication
 ### Diagramme de classe des structures
 ![A-Eye_Communication](/out/plantuml/A-Eye_Communication/Communication_structures.png)
 ### Thread receive
